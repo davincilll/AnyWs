@@ -8,24 +8,28 @@ from app.common.exceptionbox.errors import InternalServerError, MissingRequiredP
 
 def router_register(router, basename=None):
     def decorator(cls):
-        _basename = None
-        cls_name = cls.__name__
-
-        # 判断类名是否包含 "ViewSet"
-        if "ViewSet" in cls_name:
-            common_logger.debug(f"{cls_name}开始注册")
-            _basename = cls_name.split('ViewSet')[0]
-            _basename = _basename[0:2].lower() + _basename[2:]  # 转换为小写
-        elif "View" in cls_name:
-            common_logger.debug(f"{cls_name}开始注册")
-            _basename = cls_name.split('View')[0]
-            _basename = _basename[0:2].lower() + _basename[2:]  # 转换为小写
+        if basename is not None:
+            _basename = basename
         else:
-            raise ValueError(f"{cls_name}不是有效的视图类名")
+            _basename = None
+            cls_name = cls.__name__
 
-        common_logger.debug(f"{_basename}")
-        common_logger.debug(f"{cls_name}完成了注册")
-        router.register(_basename, cls, basename=_basename)
+            # 判断类名是否包含 "ViewSet"
+            if "ViewSet" in cls_name:
+                common_logger.debug(f"{cls_name}开始注册")
+                _basename = cls_name.split('ViewSet')[0]
+                _basename = _basename[0:2].lower() + _basename[2:]  # 转换为小写
+            elif "View" in cls_name:
+                common_logger.debug(f"{cls_name}开始注册")
+                _basename = cls_name.split('View')[0]
+                _basename = _basename[0:2].lower() + _basename[2:]  # 转换为小写
+            else:
+                raise ValueError(f"{cls_name}不是有效的视图类名")
+        if not any(item[0] == _basename for item in router.registry):
+            router.register(_basename, cls, basename=_basename)
+            common_logger.debug(f"Registered {_basename} with {cls}")
+        else:
+            common_logger.debug(f"{_basename} is already registered.")
         return cls
 
     return decorator

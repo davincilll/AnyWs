@@ -3,7 +3,10 @@ import inspect
 
 from django.conf import settings
 from django.contrib import admin
-from django.urls import path, include
+from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.views import LoginView
+from django.urls import path, include, re_path
+from django.views.static import serve
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework.authentication import SessionAuthentication
@@ -53,10 +56,17 @@ def scan_and_register_routes():
 def get_urlpatterns():
     _urlpatterns = [
         path('admin/', admin.site.urls),
+        # 增加验证码的视图
+        path('captcha/', include('captcha.urls')),
+        path(f'auth/', include('rest_framework.urls', namespace='rest_framework')),
+        re_path('^static/(?P<path>.*)', serve, {'document_root': settings.STATIC_ROOT}),  # 用于静态的文件
         # 增加用户登录接口
-        path('api/token/access_token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+        path('token/access_token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
         # refresh_token理由，默认的有效期为24小时,这里改为了15天
-        path('api/token/refresh_token/', TokenRefreshView.as_view(), name='token_refresh'),
+        path('token/refresh_token/', TokenRefreshView.as_view(), name='token_refresh'),
+        path("docs/", permission_required("schema-swagger-ui")(schema_view.with_ui("swagger", cache_timeout=0))),
+        path("docs/login/", LoginView.as_view(template_name='admin/login.html'), name="docs-login"),
+        path("docs/logout", LoginView.as_view(template_name='admin/login.html'), name="docs-logout")
     ]
     if settings.DEBUG:
         import debug_toolbar

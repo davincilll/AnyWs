@@ -6,6 +6,7 @@ from os import PathLike
 from pathlib import Path
 
 from app.common.LoggerCenter import common_logger
+# from app.common.LoggerCenter import common_logger
 from app.settings import PROJECT_PATH
 
 
@@ -98,6 +99,6 @@ class ScanHelper:
         if self.hasDiscovered:
             return
         self.extract_to_be_scanned_app_names()
-        # common_logger.debug(self.to_be_scanned_app_names)
+        common_logger.debug(self.to_be_scanned_app_names)
         ViewSetDiscovery(PROJECT_PATH, self.to_be_scanned_app_names).auto_discovery()
         self.hasDiscovered = True

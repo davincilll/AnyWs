@@ -26,3 +26,5 @@ class SuccessResponse(Response):
             },
             status=status_code
         )
+
+

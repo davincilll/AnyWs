@@ -22,6 +22,9 @@ django-reverse-admin = "^2.9.6"
 
 #[tool.poetry.group.linux.dependencies]
 #uwsgi = "^2.0.27"
+django-simple-captcha = "^0.6.0"
+nb-log = "^12.9"
+dj-rest-auth = "^6.0.0"
 
 [build-system]
 requires = ["poetry-core"]

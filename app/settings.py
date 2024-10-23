@@ -1,8 +1,8 @@
 import os
 from datetime import timedelta
+from pathlib import Path
 
 import environ
-from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,11 +29,9 @@ DEBUG_MODE = env('DEBUG_MODE', default='True')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if DEBUG_MODE == 'True' else False
 
-
 DEBUG_TOOLBAR_CONFIG = {
     "SHOW_TOOLBAR_CALLBACK": lambda request: True,
 }
-
 
 SIMPLEUI_HOME_INFO = False  # 隐藏右侧SimpleUI广告链接
 SIMPLEUI_ANALYSIS = False  # 使用分析
@@ -64,7 +62,6 @@ WSGI_APPLICATION = 'app.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
 
 
 # Password validation
@@ -108,6 +105,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # ============================================可选配置============================================
 ROUTE_PREFIX = 'api'
+
+
 def get_installed_apps(debug):
     apps = [
         'simpleui',
@@ -118,15 +117,20 @@ def get_installed_apps(debug):
         'django.contrib.messages',
         'django.contrib.staticfiles',
         'system_module.apps.SystemModuleConfig',
+        'user_module.apps.UserModuleConfig',
+        'card_module.apps.CardModuleConfig',
         'rest_framework',
+        # 'rest_framework.authtoken',
+        # 'dj_rest_auth',
+        'captcha',
         'drf_yasg',
         'nested_inline',
         'solo',
-        'user_module',
-        'card_module',
+
         'debug_toolbar' if debug else None
     ]
     return [app for app in apps if app]  # 过滤掉 None
+
 
 def get_middleware(debug):
     middleware = [
@@ -141,9 +145,11 @@ def get_middleware(debug):
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
     ]
     return [mw for mw in middleware if mw]  # 过滤掉 None
+
+
 INSTALLED_APPS = get_installed_apps(DEBUG)
 MIDDLEWARE = get_middleware(DEBUG)
-ALLOWED_HOSTS = ["localhost","localhost:8000","127.0.0.1","127.0.0.1:8000"]
+ALLOWED_HOSTS = ["localhost", "localhost:8000", "127.0.0.1", "127.0.0.1:8000"]
 
 DATABASES = {
     'default': {
@@ -151,7 +157,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # # 数据库配置
 # DATABASES = {
@@ -172,8 +177,8 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
     ],
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10,
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    # 'PAGE_SIZE': 10,
     'DEFAULT_THROTTLE_CLASSES': [
         'rest_framework.throttling.AnonRateThrottle',
         'rest_framework.throttling.UserRateThrottle'
@@ -210,14 +215,23 @@ CACHES = {
 SOLO_CACHE = 'default'
 SOLO_CACHE_TIMEOUT = 60 * 60 * 24
 SOLO_CACHE_PREFIX = 'solo'
+#
+LOGIN_URL = "/docs/login/"
+LOGOUT_URL = "/docs/logout"
 
-
-LOGIN_URL = "/api/docs/login/"
-LOGOUT_URL = "rest_framework:logout"
-
-SWAGGER_SETTINGS = {
-    'LOGIN_URL': 'rest_framework:login',
-    'LOGOUT_URL': 'rest_framework:logout'
-}
+# SWAGGER_SETTINGS = {
+#     'LOGIN_URL': '/auth/login/',  # 使用 dj-rest-auth 的登录 URL
+#     'LOGOUT_URL': '/auth/logout/',  # 使用 dj-rest-auth 的登出 URL
+# }
 
 # SESSION_ENGINE = 'django.contrib.sessions.backends.cache'  # 使用redis作为缓存中间件
+
+# 邮件相关配置
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # 发送邮件配置
+EMAIL_HOST = 'smtp.qq.com'  # 服务器名称
+EMAIL_PORT = 25  # 服务端口
+EMAIL_HOST_USER = '3135287831@qq.com'  # 填写自己邮箱
+EMAIL_HOST_PASSWORD = 'fkhkoscmrjqbdhde'  # 在邮箱中设置的客户端授权密码
+EMAIL_FROM = 'MyDesktopCloud<3135287831@qq.com'  # 收件人看到的发件人
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_USE_TLS = True  # 是否使用TLS安全传输协议
