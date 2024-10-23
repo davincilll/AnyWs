@@ -17,8 +17,9 @@ class WordUsageModelSerializer(ModelSerializer):
 
 
 class WordCardModelSerializer(ModelSerializer):
+    root_explains = RootExplainModelSerializer(many=True)
+    word_usages = WordUsageModelSerializer(many=True)
     class Meta:
         model = WordCard
         fields = '__all__'
-        depth = 1
         read_only_fields = ("create_time", "update_time")
