@@ -25,7 +25,9 @@ class RootExplain(models.Model):
     """
     词根解释
     """
-    word_card = models.ForeignKey(WordCard, on_delete=models.CASCADE, verbose_name='关联的单词')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='关联的用户')
+    word_card = models.ForeignKey(WordCard, on_delete=models.CASCADE, verbose_name='关联的单词',
+                                  related_name='root_explains')
     root = models.CharField(max_length=100, verbose_name='词根')
     explain = models.TextField(max_length=500, verbose_name='词根解释')
     cognates_description = models.TextField(max_length=500, verbose_name='补充描述同根词', null=True, blank=True)
@@ -39,7 +41,9 @@ class WordUsage(models.Model):
     """
     单词用法
     """
-    word_card = models.ForeignKey(WordCard, on_delete=models.CASCADE, verbose_name='关联的单词')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='关联的用户')
+    word_card = models.ForeignKey(WordCard, on_delete=models.CASCADE, verbose_name='关联的单词',
+                                  related_name='word_usages')
     content = models.TextField(max_length=50, verbose_name='内容')
     translation = models.TextField(max_length=50, verbose_name='翻译')
     example_sentence = models.TextField(max_length=500, verbose_name='例句')

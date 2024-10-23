@@ -99,6 +99,7 @@ class RegisterViewSet(GenericViewSet):
 class UserViewSet(GenericViewSet):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = UserModelSerializer
+    pagination_class = None
 
     def list(self, request):  # noqa
         serializer = UserModelSerializer(request.user)
@@ -110,6 +111,7 @@ class CaptchaViewSet(GenericViewSet):
     """
     提供验证码服务的接口
     """
+    pagination_class = None
 
     @swagger_auto_schema(
         operation_description="获取验证码",

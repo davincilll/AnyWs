@@ -46,26 +46,26 @@ def params_check(required_params: Optional[list] = None, allowed_params: Optiona
     def decorator(view_func):
         @wraps(view_func)
         def wrapper(self, request, *args, **kwargs):
+            query_keys = set(request.query_params.dict())
             keys = set(request.data.keys()).union(set(request.query_params.dict()))
-            AllowedParamsCopy = set(copy.deepcopy(allowed_params)) if allowed_params else set()
-            notAllowedParamsCopy = set(copy.deepcopy(not_allowed_params)) if not_allowed_params else set()
-            RequiredParamsCopy = set(copy.deepcopy(required_params)) if required_params else set()
-
+            allowed_params_copy = set(copy.deepcopy(allowed_params)) if allowed_params else set()
+            not_allowed_params_copy = set(copy.deepcopy(not_allowed_params)) if not_allowed_params else set()
+            required_params_copy = set(copy.deepcopy(required_params)) if required_params else set()
             # 检查必需参数
-            if RequiredParamsCopy:
-                missing_params = RequiredParamsCopy - keys
+            if required_params_copy:
+                missing_params = required_params_copy - query_keys
                 if missing_params:
                     raise MissingRequiredParameterError(info=list(missing_params))
 
             # 检查允许参数
-            if AllowedParamsCopy:
-                not_allowed = keys - AllowedParamsCopy
+            if allowed_params_copy:
+                not_allowed = keys - allowed_params_copy
                 if not_allowed:
                     raise NotAllowedParamsError(info=list(not_allowed))
 
             # 检查不允许参数
-            if notAllowedParamsCopy:
-                forbidden = keys & notAllowedParamsCopy
+            if not_allowed_params_copy:
+                forbidden = keys & not_allowed_params_copy
                 if forbidden:
                     raise NotAllowedParamsError(info=list(forbidden))
 

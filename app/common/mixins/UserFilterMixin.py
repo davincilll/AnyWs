@@ -28,6 +28,7 @@ class UserFilterMixin:
         #     extended_user = user.getattr(self.extended_user)
         #     return queryset.filter(**{self.user_field_name: extended_user})
 
+# 增加一个基于外键的检测过滤
 
 class UserFilterListMixin(UserFilterMixin, ListModelMixin):
     pass

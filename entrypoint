@@ -7,5 +7,6 @@ python manage.py makemigrations
 python manage.py migrate
 # 启动uwsgi
 cd /app || exit
+# 启动uwsgi和nginx
 uwsgi --enable-threads --ini uwsgi/uwsgi.ini
 # & python funboost_consume.py
