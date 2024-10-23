@@ -36,7 +36,7 @@ schema_view = get_schema_view(
 
 
 def scan_and_register_routes():
-    route_prefix = settings.ROUTE_PREFIX
+    # route_prefix = settings.ROUTE_PREFIX
     _urlpatterns = []
     # dir_path = os.path.dirname(__file__)
     # 导入 routers.py 文件
@@ -48,7 +48,7 @@ def scan_and_register_routes():
         if isinstance(obj, DefaultRouter):
             # 移除 'router' 后缀
             prefix = name.replace('_router', '')  # 去掉 '_router' 后缀
-            _urlpatterns.append(path(f'{route_prefix}/{prefix}/', include(obj.urls)))
+            _urlpatterns.append(path(f'{prefix}/', include(obj.urls)))
 
     return _urlpatterns
 
@@ -59,14 +59,15 @@ def get_urlpatterns():
         # 增加验证码的视图
         path('captcha/', include('captcha.urls')),
         path(f'auth/', include('rest_framework.urls', namespace='rest_framework')),
-        re_path('^static/(?P<path>.*)', serve, {'document_root': settings.STATIC_ROOT}),  # 用于静态的文件
+        re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),  # 用于静态的文件
         # 增加用户登录接口
         path('token/access_token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
         # refresh_token理由，默认的有效期为24小时,这里改为了15天
         path('token/refresh_token/', TokenRefreshView.as_view(), name='token_refresh'),
         path("docs/", permission_required("schema-swagger-ui")(schema_view.with_ui("swagger", cache_timeout=0))),
         path("docs/login/", LoginView.as_view(template_name='admin/login.html'), name="docs-login"),
-        path("docs/logout", LoginView.as_view(template_name='admin/login.html'), name="docs-logout")
+        path("docs/logout", LoginView.as_view(template_name='admin/login.html'), name="docs-logout"),
+        path('user_module/', include('user_module.urls', namespace='user_module')),
     ]
     if settings.DEBUG:
         import debug_toolbar
