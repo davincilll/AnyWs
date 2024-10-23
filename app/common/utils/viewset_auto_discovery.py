@@ -54,7 +54,7 @@ class ViewSetDiscovery:
         self.py_files = list(set(self.py_files))
 
     def auto_discovery(self, ):
-#         common_logger.debug(f"我在进行第{self.count}次扫描")
+        #         common_logger.debug(f"我在进行第{self.count}次扫描")
         self.count += 1
         for _dir in self.full_path_dirs:
             if not Path(_dir).exists():
@@ -102,3 +102,6 @@ class ScanHelper:
         common_logger.debug(self.to_be_scanned_app_names)
         ViewSetDiscovery(PROJECT_PATH, self.to_be_scanned_app_names).auto_discovery()
         self.hasDiscovered = True
+
+# todo:新增一个全局扫描api_view并自动注册
+# todo:新增一个models自动注册
