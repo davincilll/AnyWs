@@ -14,17 +14,19 @@ drf-yasg = "^1.21.7"
 django-debug-toolbar = "^4.4.6"
 django-simpleui = "^2024.8.28"
 djangorestframework_simplejwt = "^5.3.1"
-django-solo = "2.3.0"
+django-solo = "2.4.0"
 django-nested-inline = "^0.4.6"
 django-filter = "^24.2"
 django-redis = "^5.4.0"
 django-reverse-admin = "^2.9.6"
-
-#[tool.poetry.group.linux.dependencies]
-#uwsgi = "^2.0.27"
 django-simple-captcha = "^0.6.0"
 nb-log = "^12.9"
 dj-rest-auth = "^6.0.0"
+gevent = "^24.10.3"
+
+[tool.poetry.group.linux.dependencies]
+uwsgi = "^2.0.27"
+
 
 [build-system]
 requires = ["poetry-core"]

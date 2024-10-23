@@ -1,12 +1,12 @@
 #!/bin/sh
 # 收集静态文件
-python manage.py collectstatic --noinput
-# 生成迁移文件
-python manage.py makemigrations
-# 执行迁移
-python manage.py migrate
+poetry run python manage.py collectstatic --noinput
+## 生成迁移文件
+#poetry run manage.py makemigrations
+## 执行迁移
+#poetry run manage.py migrate
 # 启动uwsgi
 cd /app || exit
 # 启动uwsgi和nginx
-uwsgi --enable-threads --ini uwsgi/uwsgi.ini
-# & python funboost_consume.py
+poetry run uwsgi --enable-threads --ini app/uwsgi/uwsgi.ini & sleep 2 && nginx -g 'daemon off;'
+
