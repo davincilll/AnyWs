@@ -5,7 +5,7 @@ RUN pip install poetry
 RUN apt-get update && apt-get -y install libz-dev libjpeg-dev libfreetype6-dev python-dev nginx
 WORKDIR /app
 EXPOSE 80
-COPY app/nginx/nginx.conf /etc/nginx/conf.d/default.conf
+COPY app/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY . .
 RUN poetry lock && poetry install --no-root
 RUN chmod +x /app/entrypoint
