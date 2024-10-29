@@ -149,7 +149,7 @@ def get_middleware(debug):
 
 INSTALLED_APPS = get_installed_apps(DEBUG)
 MIDDLEWARE = get_middleware(DEBUG)
-ALLOWED_HOSTS = ["localhost", "localhost:8000", "127.0.0.1", "127.0.0.1:8000", "anyws.myhk.fun","mychats.tech:10004"]
+ALLOWED_HOSTS = ["localhost", "localhost:8000", "127.0.0.1", "127.0.0.1:8000", "anyws.myhk.fun","mychats.tech"]
 
 DATABASES = {
     'default': {
