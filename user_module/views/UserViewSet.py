@@ -5,11 +5,12 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import permissions
 from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
-
 from app.common.decorator.ViewSetDecorator import router_register, func_params_check
 from app.common.exceptionbox.success_response import SuccessResponse
 from app.routers import user_module_router
+from card_module.models.WordCard import WordCard
 from user_module.exceptions import CaptchaError, UsernameAlreadyExistsError
 from user_module.serializers.UserModelSerializer import UserModelSerializer
 
@@ -180,3 +181,6 @@ class UserViewSet(GenericViewSet):
     def list(self, request):  # noqa
         serializer = UserModelSerializer(request.user)
         return SuccessResponse(serializer.data)
+
+
+

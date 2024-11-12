@@ -23,9 +23,10 @@ django-simple-captcha = "^0.6.0"
 nb-log = "^12.9"
 dj-rest-auth = "^6.0.0"
 gevent = "^24.10.3"
-
-[tool.poetry.group.linux.dependencies]
-uwsgi = "^2.0.27"
+#
+#[tool.poetry.group.linux.dependencies]
+#uwsgi = "^2.0.27"
+drf-jsonschema-serializer = "^3.0.0"
 
 
 [build-system]
