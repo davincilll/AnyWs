@@ -7,7 +7,7 @@ from rest_framework import permissions
 from rest_framework.decorators import api_view
 from rest_framework.viewsets import GenericViewSet
 
-from app.common.decorator.ViewSetDecorator import router_register, params_check
+from app.common.decorator.ViewSetDecorator import router_register, func_params_check
 from app.common.exceptionbox.success_response import SuccessResponse
 from app.routers import user_module_router
 from user_module.exceptions import CaptchaError, UsernameAlreadyExistsError
@@ -74,21 +74,8 @@ def get_captcha(request):
 
 
 @api_view(['POST'])
-@swagger_auto_schema(
-    operation_description="用户注册",
-    request_body=openapi.Schema(
-        type=openapi.TYPE_OBJECT,
-        properties={
-            'username': openapi.Schema(type=openapi.TYPE_STRING, description='用户名'),
-            'password': openapi.Schema(type=openapi.TYPE_STRING, description='密码'),
-            'x_captcha_key': openapi.Schema(type=openapi.TYPE_STRING, description='验证码键'),
-            'x_captcha_result': openapi.Schema(type=openapi.TYPE_STRING, description='验证码结果'),
-        },
-        required=['username', 'password', 'x_captcha_key', 'x_captcha_result']
-    )
-)
-@params_check(required_params=['x_captcha_key', 'x_captcha_result', 'username', 'password'])
-def register(request):
+@func_params_check(required_params=['x_captcha_key', 'x_captcha_result', 'username', 'password'])
+def register(request, ):
     """
     这里进行注册
     """

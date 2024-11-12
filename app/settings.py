@@ -119,6 +119,8 @@ def get_installed_apps(debug):
         'system_module.apps.SystemModuleConfig',
         'user_module.apps.UserModuleConfig',
         'card_module.apps.CardModuleConfig',
+        'memory_module.apps.MemoryModuleConfig',
+
         'rest_framework',
         # 'rest_framework.authtoken',
         # 'dj_rest_auth',

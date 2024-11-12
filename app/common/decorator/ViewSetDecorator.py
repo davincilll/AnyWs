@@ -53,7 +53,7 @@ def params_check(required_params: Optional[list] = None, allowed_params: Optiona
             required_params_copy = set(copy.deepcopy(required_params)) if required_params else set()
             # 检查必需参数
             if required_params_copy:
-                missing_params = required_params_copy - query_keys
+                missing_params = required_params_copy - keys
                 if missing_params:
                     raise MissingRequiredParameterError(info=list(missing_params))
 
@@ -70,6 +70,48 @@ def params_check(required_params: Optional[list] = None, allowed_params: Optiona
                     raise NotAllowedParamsError(info=list(forbidden))
 
             return view_func(self, request, *args, **kwargs)
+
+        return wrapper
+
+    return decorator
+
+
+
+def func_params_check(required_params: Optional[list] = None, allowed_params: Optional[list] = None,
+                 not_allowed_params: Optional[list] = None):
+    """
+    用于post参数过滤
+    """
+    if allowed_params and not_allowed_params:
+        raise InternalServerError("allowedAndRequiredParams and notAllowedParams can not be set at the same time")
+
+    def decorator(view_func):
+        @wraps(view_func)
+        def wrapper(request, *args, **kwargs):
+            query_keys = set(request.query_params.dict())
+            keys = set(request.data.keys()).union(set(request.query_params.dict()))
+            allowed_params_copy = set(copy.deepcopy(allowed_params)) if allowed_params else set()
+            not_allowed_params_copy = set(copy.deepcopy(not_allowed_params)) if not_allowed_params else set()
+            required_params_copy = set(copy.deepcopy(required_params)) if required_params else set()
+            # 检查必需参数
+            if required_params_copy:
+                missing_params = required_params_copy - keys
+                if missing_params:
+                    raise MissingRequiredParameterError(info=list(missing_params))
+
+            # 检查允许参数
+            if allowed_params_copy:
+                not_allowed = keys - allowed_params_copy
+                if not_allowed:
+                    raise NotAllowedParamsError(info=list(not_allowed))
+
+            # 检查不允许参数
+            if not_allowed_params_copy:
+                forbidden = keys & not_allowed_params_copy
+                if forbidden:
+                    raise NotAllowedParamsError(info=list(forbidden))
+
+            return view_func(request, *args, **kwargs)
 
         return wrapper
 
