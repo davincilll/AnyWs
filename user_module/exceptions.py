@@ -25,6 +25,12 @@ class EmailNotExistsError(base.BadRequest400):
     def __init__(self):
         self.message = "邮箱不存在"
 
+class UsernameAlreadyExistsError(base.BadRequest400):
+    """
+    用户名已存在
+    """
+    def __init__(self):
+        self.message = "用户名已存在"
 
 class VerificationCodeError(base.BadRequest400):
     """
