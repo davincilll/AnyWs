@@ -192,7 +192,8 @@ REST_FRAMEWORK = {
 
 # 设置jwt的有效期为15天
 SIMPLE_JWT = {
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=15),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=100),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=150),
     'ROTATE_REFRESH_TOKENS': True,
 }
 
