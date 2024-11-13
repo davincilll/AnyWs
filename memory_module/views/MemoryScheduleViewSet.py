@@ -41,7 +41,7 @@ class MemoryScheduleViewSet(UserFilterListRetrieveMixin, GenericViewSet):
         return SuccessResponse()
 
     @action(detail=True, methods=['post'])
-    def forget(self, request, pk=None):
+    def forget(self, request):
         self.get_object().forget()
         return SuccessResponse()
     @action(detail=True, methods=['post'])
