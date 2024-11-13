@@ -68,6 +68,7 @@ def get_urlpatterns():
         path("docs/login/", LoginView.as_view(template_name='admin/login.html'), name="docs-login"),
         path("docs/logout", LoginView.as_view(template_name='admin/login.html'), name="docs-logout"),
         path('user_module/', include('user_module.urls', namespace='user_module')),
+        path('translation_module/', include('translation_module.urls', namespace='translation_module'))
     ]
     if settings.DEBUG:
         import debug_toolbar

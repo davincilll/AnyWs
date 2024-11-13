@@ -7,9 +7,9 @@ from app.common.mixins.CustomCreateModelMixin import CustomCreateModelMixin
 from app.common.mixins.PartialUpdateModelMixin import PartialUpdateModelMixin
 from app.common.mixins.UserFilterMixin import UserFilterListRetrieveDestroyMixin
 from app.routers import card_module_router
-from card_module.models.WordCard import WordCard, WordUsage, RootExplain
-from card_module.serializers.WordCardModelSerializer import WordCardModelSerializer, WordUsageModelSerializer, \
-    RootExplainModelSerializer
+from card_module.models.WordCard import WordCard, RootExplain, UsefulPhraseUsingThisVocabulary
+from card_module.serializers.WordCardModelSerializer import WordCardModelSerializer, \
+    RootExplainModelSerializer, UsefulPhraseUsingThisVocabularyModelSerializer
 
 
 @router_register(card_module_router)
@@ -37,16 +37,16 @@ class WordCardViewSet(UserFilterListRetrieveDestroyMixin, GenericViewSet, Partia
 
 
 @router_register(card_module_router)
-class WordUsageViewSet(UserFilterListRetrieveDestroyMixin, GenericViewSet, PartialUpdateModelMixin,
+class UsefulPhraseUsingThisVocabularyViewSet(UserFilterListRetrieveDestroyMixin, GenericViewSet, PartialUpdateModelMixin,
                        CustomCreateModelMixin):
     """
-    list: 获取所有的WordUsage资源对象,需要添加过滤参数word_card_id
-    create: 创建WordUsage资源对象，需要传入word_card_id参数
-    partial_update: 部分更新WordUsage资源对象
-    destroy: 删除WordUsage资源对象
+    list: 获取所有的UsefulPhraseUsingThisVocabulary资源对象,需要添加过滤参数word_card_id
+    create: 创建UsefulPhraseUsingThisVocabulary资源对象，需要传入word_card_id参数
+    partial_update: 部分更新UsefulPhraseUsingThisVocabulary资源对象
+    destroy: 删除UsefulPhraseUsingThisVocabulary资源对象
     """
-    queryset = WordUsage.objects.all()
-    serializer_class = WordUsageModelSerializer
+    queryset = UsefulPhraseUsingThisVocabulary.objects.all()
+    serializer_class = UsefulPhraseUsingThisVocabularyModelSerializer
     authentication_classes = [JWTAuthentication, ]
     permission_classes = [IsAuthenticated]
 
@@ -90,5 +90,3 @@ class RootExplainViewSet(UserFilterListRetrieveDestroyMixin, GenericViewSet, Par
     def create(self, request, *args, **kwargs):
         kwargs['user'] = request.user
         return super().create(request, *args, **kwargs)
-
-

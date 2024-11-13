@@ -1,10 +1,10 @@
 #!/bin/sh
 # 收集静态文件
 poetry run python manage.py collectstatic --noinput
-## 生成迁移文件
-#poetry run manage.py makemigrations
-## 执行迁移
-#poetry run manage.py migrate
+# 生成迁移文件
+poetry run manage.py makemigrations
+# 执行迁移
+poetry run manage.py migrate
 # 启动uwsgi
 cd /app || exit
 # 启动uwsgi和nginx

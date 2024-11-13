@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 
-from card_module.models.WordCard import WordCard, RootExplain, PhraseUsingThisVocabulary
+from card_module.models.WordCard import WordCard, RootExplain, UsefulPhraseUsingThisVocabulary
 
 
 class RootExplainModelSerializer(ModelSerializer):
@@ -10,9 +10,9 @@ class RootExplainModelSerializer(ModelSerializer):
         exclude = ('user', 'word_card')
 
 
-class PhraseUsingThisVocabularyModelSerializer(ModelSerializer):
+class UsefulPhraseUsingThisVocabularyModelSerializer(ModelSerializer):
     class Meta:
-        model = PhraseUsingThisVocabulary
+        model = UsefulPhraseUsingThisVocabulary
         # fields = '__all__'
         exclude = ('user', 'word_card')
         read_only_fields = ('word_card',)
@@ -20,10 +20,21 @@ class PhraseUsingThisVocabularyModelSerializer(ModelSerializer):
 
 class WordCardModelSerializer(ModelSerializer):
     root_explains = RootExplainModelSerializer(many=True)
-    phrases_using_this_vocabulary = PhraseUsingThisVocabularyModelSerializer(many=True)
+    useful_phrases_phrases_using_this_vocabulary = UsefulPhraseUsingThisVocabularyModelSerializer(many=True)
 
     class Meta:
         model = WordCard
         # fields = '__all__'
         exclude = ('user',)
+        read_only_fields = ("create_time", "update_time")
+
+
+class WordCardSchema(ModelSerializer):
+    root_explains = RootExplainModelSerializer(many=True)
+    useful_phrases_phrases_using_this_vocabulary = UsefulPhraseUsingThisVocabularyModelSerializer(many=True)
+
+    class Meta:
+        model = WordCard
+        # fields = '__all__'
+        exclude = ('user','remark_of_user')
         read_only_fields = ("create_time", "update_time")
