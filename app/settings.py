@@ -106,9 +106,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # ============================================可选配置============================================
 ROUTE_PREFIX = 'api'
 
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOW_CREDENTIALS = True
 
 def get_installed_apps(debug):
     apps = [
+        'corsheaders',
         'simpleui',
         'django.contrib.admin',
         'django.contrib.auth',
@@ -140,6 +144,7 @@ def get_middleware(debug):
         'app.common.exceptionbox.middleware.ExceptionBoxMiddleware',
         'django.middleware.security.SecurityMiddleware',
         'django.contrib.sessions.middleware.SessionMiddleware',
+        'corsheaders.middleware.CorsMiddleware',
         'django.middleware.common.CommonMiddleware',
         'django.middleware.csrf.CsrfViewMiddleware',
         'django.contrib.auth.middleware.AuthenticationMiddleware',

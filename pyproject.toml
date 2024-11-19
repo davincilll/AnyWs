@@ -24,10 +24,12 @@ nb-log = "^12.9"
 dj-rest-auth = "^6.0.0"
 gevent = "^24.10.3"
 drf-jsonschema-serializer = "^3.0.0"
+openai = "^1.54.4"
+django-cors-headers = "4.6.0"
 #
 [tool.poetry.group.linux.dependencies]
 uwsgi = "^2.0.27"
-openai = "^1.54.4"
+
 
 
 
