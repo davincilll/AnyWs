@@ -1,3 +1,4 @@
+from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, DestroyModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -13,7 +14,7 @@ from card_module.serializers.WordCardModelSerializer import WordCardModelSeriali
 
 
 @router_register(card_module_router)
-class WordCardViewSet(UserFilterListRetrieveDestroyMixin, GenericViewSet, PartialUpdateModelMixin,
+class WordCardViewSet(GenericViewSet, PartialUpdateModelMixin, ListModelMixin, RetrieveModelMixin, DestroyModelMixin,
                       CustomCreateModelMixin):
     """
     list: 需要jwt，获取所有的用户的WordCard资源对象
@@ -24,6 +25,7 @@ class WordCardViewSet(UserFilterListRetrieveDestroyMixin, GenericViewSet, Partia
     queryset = WordCard.objects.all()
     serializer_class = WordCardModelSerializer
     authentication_classes = [JWTAuthentication, ]
+
     # permission_classes = [IsAuthenticated]
 
     # @params_check(not_allowed_params=["user"])
@@ -37,8 +39,9 @@ class WordCardViewSet(UserFilterListRetrieveDestroyMixin, GenericViewSet, Partia
 
 
 @router_register(card_module_router)
-class UsefulPhraseUsingThisVocabularyViewSet(UserFilterListRetrieveDestroyMixin, GenericViewSet, PartialUpdateModelMixin,
-                       CustomCreateModelMixin):
+class UsefulPhraseUsingThisVocabularyViewSet(UserFilterListRetrieveDestroyMixin, GenericViewSet,
+                                             PartialUpdateModelMixin,
+                                             CustomCreateModelMixin):
     """
     list: 获取所有的UsefulPhraseUsingThisVocabulary资源对象,需要添加过滤参数word_card_id
     create: 创建UsefulPhraseUsingThisVocabulary资源对象，需要传入word_card_id参数
