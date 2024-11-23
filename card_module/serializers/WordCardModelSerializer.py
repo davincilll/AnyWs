@@ -19,8 +19,8 @@ class UsefulPhraseUsingThisVocabularyModelSerializer(ModelSerializer):
 
 
 class WordCardModelSerializer(ModelSerializer):
-    root_explains = RootExplainModelSerializer(many=True)
-    useful_phrases_phrases_using_this_vocabulary = UsefulPhraseUsingThisVocabularyModelSerializer(many=True)
+    root_explains = RootExplainModelSerializer(many=True,required=False)
+    useful_phrases_phrases_using_this_vocabulary = UsefulPhraseUsingThisVocabularyModelSerializer(many=True,required=False)
 
     class Meta:
         model = WordCard

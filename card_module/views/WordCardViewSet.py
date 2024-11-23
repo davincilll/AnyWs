@@ -17,8 +17,8 @@ class WordCardViewSet(UserFilterListRetrieveDestroyMixin, GenericViewSet, Partia
                       CustomCreateModelMixin):
     """
     list: 需要jwt，获取所有的用户的WordCard资源对象
-    create: 需要jwt，创建用户的WordCard资源对象，传入user参数是被禁止的，会自动从会话中获取user对象
-    partial_update: 需要jwt，部分更新用户的WordCard资源对象，传入user参数是被禁止的，会自动从会话中获取user对象
+    create: 需要jwt，创建用户的WordCard资源对象
+    partial_update: 需要jwt，部分更新用户的WordCard资源对象
     destroy: 需要jwt，删除用户的WordCard资源对象
     """
     queryset = WordCard.objects.all()
@@ -26,13 +26,13 @@ class WordCardViewSet(UserFilterListRetrieveDestroyMixin, GenericViewSet, Partia
     authentication_classes = [JWTAuthentication, ]
     permission_classes = [IsAuthenticated]
 
-    @params_check(not_allowed_params=["user"])
+    # @params_check(not_allowed_params=["user"])
     def partial_update(self, request, *args, **kwargs):
         return super().partial_update(request, *args, **kwargs)
 
-    @params_check(not_allowed_params=['user'])
+    # @params_check(not_allowed_params=['user'])
     def create(self, request, *args, **kwargs):
-        kwargs['user'] = request.user
+        kwargs['user_id'] = request.user.pk
         return super().create(request, *args, **kwargs)
 
 
