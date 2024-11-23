@@ -24,7 +24,7 @@ class WordCardViewSet(UserFilterListRetrieveDestroyMixin, GenericViewSet, Partia
     queryset = WordCard.objects.all()
     serializer_class = WordCardModelSerializer
     authentication_classes = [JWTAuthentication, ]
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     # @params_check(not_allowed_params=["user"])
     def partial_update(self, request, *args, **kwargs):
